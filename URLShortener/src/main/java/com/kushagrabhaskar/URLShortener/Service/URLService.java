@@ -1,13 +1,16 @@
 package com.kushagrabhaskar.URLShortener.Service;
 
-import com.kushagrabhaskar.URLShortener.Dto.OutputDto;
+import com.kushagrabhaskar.URLShortener.Dto.URLDto;
 import com.kushagrabhaskar.URLShortener.Entity.URL;
 import com.kushagrabhaskar.URLShortener.Config.Mapper;
 import com.kushagrabhaskar.URLShortener.Repository.URLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class URLService {
@@ -26,7 +29,8 @@ public class URLService {
     }
 
 
-    public OutputDto createShortURL(String url) {
+    @Cacheable(cacheNames = "url", key = "#url")
+    public URLDto createShortURL(String url) {
         if(checkIfLongURLExists(url)){
             URL existingURL = urlRepository
                     .findByLongURL(url)
@@ -50,7 +54,7 @@ public class URLService {
     }
 
 
-    public OutputDto getURL(String longURL){
+    public URLDto getURL(String longURL){
         if(!checkIfLongURLExists(longURL)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No URL Found!");
         }
@@ -60,4 +64,28 @@ public class URLService {
         return mapper.EntityToOutputDto(existingURL);
     }
 
+    public List<URLDto> getAllUrl() {
+        List<URL> urls = urlRepository.findAll();
+
+        return urls
+                .stream()
+                .map(url->mapper.EntityToOutputDto(url))
+                .toList();
+    }
+
+    public URLDto createCustomShortUrl(String shortURL, String longURL) {
+        if(checkIfShortURLExists(shortURL)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Short URL Already Exists");
+        }
+        URL url = new URL();
+        url.setShortURL(shortURL);
+        url.setLongURL(longURL);
+        URL newUrl = urlRepository.save(url);
+        return mapper.EntityToOutputDto(newUrl);
+    }
+
+    public String getLongURL(String shortURL) {
+        URL url = urlRepository.findByShortURL(shortURL).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Not Mapped to any Url"));
+        return url.getLongURL();
+    }
 }

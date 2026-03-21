@@ -11,5 +11,6 @@ public interface URLRepository extends JpaRepository<URL,Integer> {
     boolean existsByLongURL(String longURL);
     boolean existsByShortURL(String shortURL);
     Optional<URL> findByLongURL(String longURL);
+    Optional<URL> findByShortURL(String shortURL);
 
 }
