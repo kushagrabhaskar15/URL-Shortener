@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../assets/vite.svg'
 import { Link } from 'react-router-dom'
 
 function NavBar() {
   return (
-    <div className='h-10 bg-blue-200 flex'>
-        <div className='grid grid-rows-1 grid-cols-3 items-center'>
-            <Link to="/" className='col-span-1 col-start-1 flex items-center space-between-1'>
-                <img src={Logo} alt="Logo" className='h-8'></img>
-                <p className='font-bold text-blue-900'>ShortURL</p>
-            </Link>
-            <div className='col-span-1 col-start-3'>
-                bye
-            </div>
-        </div>
+
+    <div className="h-12 px-4 w-full shadow-md shadow-slate-400 bg-linear-to-b from-blue-200 to-blue-400 flex items-center justify-between">
+
+    <Link to="/" className="flex items-center gap-2">
+        <img src={Logo} alt="Logo" className="h-8" />
+        <p className="font-bold text-slate-900">ShortURL</p>
+    </Link>
+
+    <div className="flex gap-6">
+        <p className="font-bold text-slate-800 hover:text-slate-950 cursor-pointer">
+            Shorten URL
+        </p>
+        <p className="font-bold text-slate-800 hover:text-slate-950 cursor-pointer">
+            About Us
+        </p>
+    </div>
+
     </div>
   )
 }

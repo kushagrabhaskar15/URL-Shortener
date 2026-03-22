@@ -24,8 +24,8 @@ const handleChange = (e)=>{
 
   return (
     <div className='flex justify-center items-center h-screen'>
-      <form className='grid grid-cols-1 grid-rows-3 justify-items-start items-start bg-blue-300 rounded-lg border h-[15rem] w-[15rem]' onSubmit={handleSubmit}>
-        <p className='row-span-1 self-center text-white font-bold px-[2rem] text-lg mx-auto'>Generate Short Link</p>
+      <form className='grid grid-cols-1 grid-rows-3 justify-items-start items-start bg-blue-300 rounded-lg border h-4 w-4' onSubmit={handleSubmit}>
+        <p className='row-span-1 self-center text-white font-bold px-8 text-lg mx-auto'>Generate Short Link</p>
         <div className='grid-row-2 mx-auto'> 
         <p className='font-bold italic'>Enter The URL:</p>
         <input 
@@ -37,7 +37,7 @@ const handleChange = (e)=>{
         </div>
         <button 
           type='submit'
-          className='grid-row-3 mx-auto flex justify-center items-center bg-white hover:bg-yellow-100 rounded-md border px-[1rem] py-0.5'>
+          className='grid-row-3 mx-auto flex justify-center items-center bg-white hover:bg-yellow-100 rounded-md border px-px py-0.5'>
           Submit
         </button>
         
