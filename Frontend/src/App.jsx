@@ -3,14 +3,25 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
-import Form from './components/Form'
+import Home from './Pages/Home'
+import About from './Pages/About'
+import Profile from './Pages/Profile'
+import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import Footer from './components/Footer'
 
 function App() {
 
   return (
-    <>
-      <Form/>
-    </>
+    <Router>
+      <NavBar/>
+        <Routes>
+          <Route path="/" element={<Home/>}></Route>
+          <Route path="/about" element={<About/>}></Route>
+          <Route path="/profile" element={<Profile/>}></Route>
+        </Routes>
+      <Footer/>
+    </Router>
   )
 }
 

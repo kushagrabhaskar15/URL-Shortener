@@ -2,16 +2,16 @@ package com.kushagrabhaskar.URLShortener.Controller;
 
 import com.kushagrabhaskar.URLShortener.Dto.URLDto;
 import com.kushagrabhaskar.URLShortener.Service.URLService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/URL")
 public class URLController {
@@ -45,7 +45,7 @@ public class URLController {
         String originalURL = urlService.getLongURL(shortCode);
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .header("Location",originalURL)
+                .location(URI.create(originalURL))
                 .build();
     }
 }

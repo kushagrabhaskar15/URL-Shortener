@@ -1,53 +1,54 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
+import { createShortURL } from '../Service/BackendConnection';
 
 function Form() {
   const [url, setUrl] = useState("")
   const [result, setResult] = useState("")
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-try {
-  const res = await fetch("http://localhost:8080/URL/shorten", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      longURL: url
-    })
-  })
-
-    const data = await res.json()
-    setResult(`${window.location.origin}/${data.shortURL}`)
-    } catch (err) {
-      setResult("Something broke. Obviously.")
-    }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("SUBMIT HIT",url);
+  try {
+    const data = await createShortURL(url);
+    console.log("RESPONSE",data);
+    setResult(`${window.location.origin}/URL/${data.shortURL}`);
+  } catch (err) {
+    console.log(err);
+    setResult("Something broke. Obviously.");
   }
+};
+
+const handleChange = (e)=>{
+    setUrl(e.target.value);
+};
 
   return (
-    <div className='flex items-center justify-center h-screen bg-gray-100'>
-      <form onSubmit={handleSubmit} 
-      className='border rounded shadow-md m-[5rem]'>
-        <p className="font-bold text-2xl">Shorten Your URL</p>
-
-        <input
-          type="text"
+    <div className='flex justify-center items-center h-screen'>
+      <form className='grid grid-cols-1 grid-rows-3 justify-items-start items-start bg-blue-300 rounded-lg border h-[15rem] w-[15rem]' onSubmit={handleSubmit}>
+        <p className='row-span-1 self-center text-white font-bold px-[2rem] text-lg mx-auto'>Generate Short Link</p>
+        <div className='grid-row-2 mx-auto'> 
+        <p className='font-bold italic'>Enter The URL:</p>
+        <input 
+          type='text'
+          id="longURL"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="Enter URL"
-        />
-
-        <button className="bg-red-500 hover:bg-green-500 cursor-pointer">
+          className='bg-white border mx-auto'
+          onChange={handleChange}/>
+        </div>
+        <button 
+          type='submit'
+          className='grid-row-3 mx-auto flex justify-center items-center bg-white hover:bg-yellow-100 rounded-md border px-[1rem] py-0.5'>
           Submit
         </button>
+        
+      {result.length==0?
+      <></>
+      :
+      <div>
+        <p> Generated Short Url: {result}</p>  
+      </div>
+      }
       </form>
-
-      {result && (
-        <p>
-          Short URL: <a href={result}>{result}</a>
-        </p>
-      )}
     </div>
   )
 }
