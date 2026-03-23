@@ -26,7 +26,7 @@ export async function createShortURL(url){
   }
 };
 
-export async function createCustomShortURL(longURL,shortURL) {
+export async function createCustomShortURL(enteredLongURL,enteredShortURL) {
   try{
     const res = await fetch(CUSTOM_URL,{
       method:"POST",
@@ -34,8 +34,8 @@ export async function createCustomShortURL(longURL,shortURL) {
         "Content-Type":"application/json"
       },
       body: JSON.stringify({
-        longURL: {longURL},
-        shortURL: {shortURL}
+        longURL: enteredLongURL,
+        shortURL: enteredShortURL
       })
     });
 

@@ -1,10 +1,20 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
+import HeroSection from '../components/HeroSection'
+import Form from '../components/Form'
+import About from '../components/About'
 
 function Home() {
   return (
-    <div>
-        Home
+    <div className=''>
+      <div>
+        <HeroSection/>
+      </div>
+      <div>
+        <Form/>
+      </div>
+      <div>
+       <About/>
+      </div>
     </div>
   )
 }
